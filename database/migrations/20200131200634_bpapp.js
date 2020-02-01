@@ -1,7 +1,7 @@
 exports.up = async function(knex) {
     await knex.schema.createTable("users", (table) => {
         table.increments("id").unique()
-        table.string("email").unique().notNullable()
+        table.string("username").unique().notNullable()
         table.string("password").notNullable()
   
     })
@@ -12,6 +12,7 @@ exports.up = async function(knex) {
       .notNullable()
       .references("id")
       .inTable("users")
+      .onDelete('CASCADE')
       table.string("name").notNullable()
       table.string("email").notNullable()
       table.string("image_url")
@@ -24,6 +25,8 @@ exports.up = async function(knex) {
         .notNullable()
         .references("id")
         .inTable("students")
+        .onDelete('CASCADE')
+        table.string("title").notNullable()
         table.date("due_date")
         table.time("reminder_time")
         table.string("notes")
