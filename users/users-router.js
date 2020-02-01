@@ -67,5 +67,15 @@ router.delete('/:id', (req, res) => {
     })
 });
 
+router.get('/:id/students', (req, res) => {
+    Users.getStudentList()
+    .then(students => {
+        res.json(students)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: "Database failed to get users. Contact your backend"})
+    })
+ });
 
 module.exports = router;
