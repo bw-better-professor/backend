@@ -4,7 +4,8 @@ module.exports = {
     getUsers,
     findUserById,
     updateUser,
-    removeUser
+    removeUser,
+    getStudentList
 
 }
 
@@ -38,3 +39,16 @@ function removeUser (id) {
     
 }
 
+function getStudentList() {
+    return db('students as s')
+    .join('users as u', 's.professor_id', 'u.id')
+    .select('s.id as studentId', 's.name', 's.email', 's.image_url')
+    .then(students => {
+        if (students) {
+            return students
+        } else {
+            return null
+        }
+    })
+   
+}
