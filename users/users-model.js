@@ -20,10 +20,14 @@ function findUserById(id) {
 
 function updateUser(changes, id){
     return db('users')
-    .where('id', id)
+    .where({id})
     .update(changes)
-    .then(updated => {
-        updated > 0 ? findById(id) : null
+    .then(count=> {
+        if (count > 0) {
+            return findUserById(id)
+        } else {
+            return null;
+        }
     })
 }
 
