@@ -61,19 +61,3 @@ function getProjectList(id) {
     })   
 }
 
-
-// function getStudentList(id) {
-    
-//     return db('students as s')
-//     .join('users as u', 's.professor_id', 'u.id')
-//     .select('s.id as studentId', 's.name', 's.email', 's.image_url')
-//     .where({'professor_id' : id})
-//     .then(students => {
-//         if (students) {
-//             return students
-            
-//         } else {
-//             return null
-//         }
-//     })   
-// }
