@@ -3,22 +3,38 @@ const db = require('../database/dbConfig')
 
 module.exports = {
     
+    findById,
     addProject,
     updateProject,
     deleteProject,
 }
 
-function addProject () {
+function findById (id) {
     return db('projects')
-    .insert({name:name, type: type, duedate:due})
-    
+    .where({id})
+    .first()
 }
 
-function updateProject(filter){
-    return db('users')
-    .where(filter).update()
+function addProject(newProjects){
+    return db('projects')
+    .insert(newProjects)
+    .then(ids => {
+        const [id] = ids
+        return findById(id)
+    })
 }
 
-function deleteProject(){
-    return db('project').where({id}).del()
+function updateProject(changes, id){
+    return db('projects')
+    .where('id', id)
+    .update(changes)
+    .then(updated => {
+        updated > 0 ? findById(id) : null
+    })
+}
+
+function deleteProject(id){
+    return db('projects')
+    .where('id', id)
+    .del()
 }
