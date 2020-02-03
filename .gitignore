@@ -1,2 +1,6 @@
 # exclude apidocs
 docs/
+
+#exclude node_modules
+.gitignore
+node_modules
