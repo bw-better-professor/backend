@@ -2,13 +2,12 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [Heroku](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at Heroku https://betterprofessor25.herokuapp.com/ <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
 
 - Clone this repo
 - **npm i** to install all required dependencies
