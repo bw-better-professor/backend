@@ -15,7 +15,6 @@
   "jest": {
     "testEnvironment": "node"
   },
-  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bw-better-professor/backend.git"

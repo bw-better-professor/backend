@@ -83,7 +83,8 @@ router.post('/login', (req, res, next) => {
             //send the token
             res.status(200).json({
                 token,
-                message: `Welcome ${user.username}!`
+                message: `Welcome ${user.username}!`,
+                id: user.id
             });
         } else {
             res.status(401).json({ message: 'You shall not pass!' });
