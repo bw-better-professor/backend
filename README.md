@@ -1,14 +1,8 @@
 # Backend
 
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Heroku](🚫add URL here) <br>
 
 ## 1️⃣ Getting started
 
@@ -17,60 +11,63 @@ To get the server running locally:
 🚫 adjust these scripts to match your project
 
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- **npm i** to install all required dependencies
+- **npm run server** to start the local server
+- **npm test** to start server using testing environment
 
-### Backend framework goes here
-
-🚫 Why did you choose this framework?
-
--    Point One
--    Point Two
--    Point Three
--    Point Four
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+The following Endpoints have been provided for the project
 
-#### Organization Routes
+#### Login/Register Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                |  Description                                  |
+| ------ | ----------------------- |  -------------------------------------------- |
+| POST   | `/api/auth/login`       |  Allows a user to login and returns token     |
+| POST   | `/api/auth/register`    |  Creates a new user                           |
+
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint                |  Description                                  |
+| ------ | ----------------------- |  -------------------------------------------- |
+| GET    | `/api/user`             |  Returns all users registered                 |
+| GET    | `/api/user/:id`         |  Returns user info with the corresponding id  |
+| GET    | `/api/user/:id/students`|  Returns all students belonging to that user  |
+| PUT    | `/api/user/:id`         |  Edits user with the corresponding id         |
+| DELETE | `/api/user/:id`         |  Deletes user with the corresponding id       |
+
+#### Student Routes
+
+| Method | Endpoint                     |  Description                                        |
+| ------ | -----------------------      |  -------------------------------------------------- |
+| GET    | `/api/students`              |  Returns ALL students in the database               |
+| GET    | `/api/students/:id`          |  Returns student info with the corresponding id     |
+| GET    | `/api/students/:id/projects` |  Returns all projects belonging to that student     |
+| POST   | `/api/students`              |  Creates a new student                              |
+| PUT    | `/api/students/:id`          |  Edits info for student with corresponding id       |
+| DELETE | `/api/students/:id`          |  Deletes student with the corresponding id          |
+
+#### Project Routes
+
+| Method | Endpoint                     |  Description                                        |
+| ------ | -----------------------      |  -------------------------------------------------- |
+| GET    | `/api/project:id`            |  Returns project with the corresponding id          |
+| POST   | `/api/projects`              |  Creates a new project                              |
+| PUT    | `/api/projects/:id`          |  Edits info for project with corresponding id       |
+| DELETE | `/api/projects/:id`          |  Deletes project with the corresponding id          |
+
+#### Login/Register Routes
+
+| Method | Endpoint                     |  Description                                        |
+| ------ | -----------------------      |  -------------------------------------------------- |
+| POST   | `/api/auth/login`            |  Allows a user to login                             |
+| POST   | `/api/auth/register`         |  Creates a new user                                 |
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
+Below demonstrates the shape of the data for users, students, and projects
 
 #### USERS
 
@@ -78,60 +75,83 @@ To get the server running locally:
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+    id: UUID
+    username: STRING
+    password: STRING
+}
+```
+
+#### STUDENTS
+
+---
+
+```
+{
+    id: UUID
+    professor_id: UUID foreign key in USERS table
+    name: STRING
+    email: STRING
+    image_url: STRING
+}
+```
+
+#### PROJECTS
+
+---
+
+```
+{
+    id: UUID
+    student_id: UUID foreign key in STUDENT table
+    title: STRING
+    due_date: DATE
+    reminder_time: TIME
+    notes: STRING
 }
 ```
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+Actions that pertain to this backend: 
 
-`getOrgs()` -> Returns all organizations
+`getUsers()` -> Returns all users
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`findUserById(id)` -> Returns a single user by ID
 
-`addOrg(org)` -> Returns the created org
+`updateUser(changes, id)` -> Update a user by ID
 
-`updateOrg(orgId)` -> Update an organization by ID
+`removeUser(id)` -> Delete a user by ID
 
-`deleteOrg(orgId)` -> Delete an organization by ID
+`getStudentList(id)` -> Returns a list of students that are assigned to the user with the selected id
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+`getStudents()` -> Returns all students in the database 
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`findStudentById(id)` -> Returns a single user by user ID
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`addStudent(newStudent)` --> Creates a new student and returns that student.
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`updateStudent(id, changes)` -> Updates a single student by ID.
 
-## 3️⃣ Environment Variables
+`deleteStudent(id)` -> deletes the student
 
-In order for the app to function correctly, the user must set up their own environment variables.
+`getProjectsList(id)` -> Returns a list of projects assigned to that student
 
-create a .env file that includes the following:
+<br>
+<br>
+<br>
 
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
-    
+`findById(id)` -> Returns a single project by user ID
+
+`addProject(newProject)` --> Creates a new project and returns that project.
+
+`updateProject(id, changes)` -> Updates a single project by ID.
+
+`deleteProject(id)` -> deletes the project
+
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -170,5 +190,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+FrontEnd Documentation Pending

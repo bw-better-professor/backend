@@ -4,16 +4,43 @@ const Students = require('./students-model');
 
 const router = express.Router();
 
-// router.get('/', (req, res) => {
-//     Students.getStudents()
-//     .then(students => {
-//         res.json(students)
-//     })
-//     .catch(err => {
-//         console.log(err)
-//         res.status(500).json({errorMessage: "Database failed to get users. Contact your backend"})
-//     })
-//  });
+/** 
+* @api {get} api/students GET a list of all students
+* @apiName getStudents
+* @apiGroup Students
+*/
+
+
+router.get('/', (req, res) => {
+    Students.getStudents()
+    .then(students => {
+        res.json(students)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: "Database failed to get users. Contact your backend"})
+    })
+ });
+
+/** 
+* @api {get} api/students/:id GET a Student by Id
+* @apiName getStudentById
+* @apiGroup Students
+* @apiParam {Number} id Student id
+* @apiSuccess {Number} user_id id of user who created that student
+* @apiSuccess {String} name Student name
+* @apiSuccess {String} email Student email
+* @apiSuccess {String} image_url image url for student photo
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+*{
+*   "id": 3,
+*   "professor_id": 1,
+*   "name": "John Smith",
+*   "email": "john@gmail.com",
+*   "image_url": "https://ibb.co/Pr9g04c"
+*}
+*/
 
 router.get('/:id', (req, res) => {
     const {id} = req.params;
@@ -31,6 +58,61 @@ router.get('/:id', (req, res) => {
     })
 });
 
+ /** 
+* @api {post} api/students Add/Create a new student
+* @apiName addStudent
+* @apiGroup Students
+* 
+* @apiParam {Number} professor_id id of professor the student is connected to 
+* @apiParam {String} name student name
+* @apiParam {String} email student email
+* @apiParam {String} image_url image url, optional field
+*
+* @apiParamExample Example Body:
+* {
+*    "professor_id": 3,
+*    "name": "Emily Bruner",
+*    "email": "emily@gmail.com",
+*    "image_url": "https://images.unsplash.com/photo-1580490390526-9fe5df5e68a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"   
+* }
+* @apiSuccess {Number} id Student id
+* @apiSuccess {Number} professor_id Id of the professor that the student is connected to
+* @apiSuccess {String} name Student Name
+* @apiSuccess {String} email Student Email
+* @apiSuccess {String} image_url image url
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+*{
+*   "id": 9,
+*   "professor_id": 3,
+*   "name": "Emily Bruner",
+*   "email": "emily@gmail.com",
+*   "image_url": "https://images.unsplash.com/photo-1580490390526-9fe5df5e68a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+*}
+*/
+
+router.post('/', (req, res) => {
+    const studentData = req.body;
+
+    Students.addStudent(studentData)
+    .then(student => {
+        res.status(201).json(student)
+    })
+    .catch(err => {
+        res.status(500).json({errorMessage: 'Failed to create student. Please contact your backend'})
+    })
+    
+});
+
+ /** 
+* @api {put} api/students/:id EDIT a Student by Id
+* @apiName editStudent
+* @apiGroup Students
+* @apiParam {Number} id Student id
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+*/
+
 router.put('/:id', (req, res) => {
     const {id} = req.params;
     const changes = req.body;
@@ -43,13 +125,26 @@ router.put('/:id', (req, res) => {
                 res.json(updatedStudent);
             })
         } else {
-            res.status(404).json({message: "No user with that id exists"})
+            res.status(404).json({message: "No student with that id exists"})
         }
     })
     .catch(err => {
-        res.status(500).json({message: "Failed to update user. Contact your backend"})
+        res.status(500).json({message: "Failed to update student. Contact your backend"})
     })
 });
+
+ /** 
+* @api {delete} api/students/:id DELETE a Student
+* @apiName deleteStudent
+* @apiGroup Students
+* @apiParam {Number} id Student Id
+*
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+* {
+*    "removed": 1
+* }
+*/
 
 router.delete('/:id', (req, res) => {
     const {id} = req.params;
@@ -59,11 +154,54 @@ router.delete('/:id', (req, res) => {
         if (deleted) {
             res.json({removed: deleted})
         } else {
-            res.status(404).json({message: 'No user with that id exists'})
+            res.status(404).json({message: 'No student with that id exists'})
         }
     })
     .catch(err => {
-        res.status(500).json({errorMessage: "Failed to delete user. Contact your backend"})
+        console.log(err)
+        res.status(500).json({errorMessage: "Failed to delete student. Contact your backend"})
     })
 });
+
+ /** 
+* @api {get} api/students/:id/projects GET a list of Projects belonging to a student
+* @apiName getProjectList
+* @apiGroup Students
+*
+* @apiParam {Number} id Student id
+*
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+* [
+*    {
+*        "projectId": 2,
+*        "title": "Comments on Research Paper Due",
+*        "due_date": "02-23-2020",
+*        "reminder_time": "4:00",
+*        "notes": "Must return comments and edits for midterm paper"
+*    },
+*    {
+*        "projectId": 3,
+*        "title": "Give feedback on mock interview",
+*        "due_date": "02-28-2020",
+*        "reminder_time": "12:00",
+*        "notes": "Give feedback for mock interview excercise"
+*    }
+* ]
+*/
+
+router.get('/:id/projects', (req, res) => {
+    const {id} = req.params
+    
+    Students.getProjectList(id)
+    .then(projects => {
+        res.json(projects)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: "Database failed to get projects. Contact your backend"})
+    })
+ });
+
+
  module.exports = router;

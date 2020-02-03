@@ -3,8 +3,10 @@ const db = require('../database/dbConfig');
 module.exports = {
     getStudents,
     findStudentById,
+    addStudent,
     updateStudent,
     removeStudent,
+    getProjectList
 
 }
 
@@ -16,6 +18,15 @@ function findStudentById(id) {
     return db('students')
     .where({id})
     .first()
+}
+
+function addStudent(newStudent){
+    return db('students')
+    .insert(newStudent)
+    .then(ids => {
+        const [id] = ids
+        return findStudentById(id)
+    })
 }
 
 function updateStudent(changes, id){
@@ -34,11 +45,19 @@ function removeStudent (id) {
     
 }
 
-function getStudentList() {
-    return db('students as s')
-    .join('users as u', 's.professor_id', 'u.id')
-    .select('s.id as studentId', 's.name', 's.email', 's.image_url')
-    .where('s.professor_id', 'u.id')
+function getProjectList(id) {
+    
+    return db('projects as p')
+    .join('students as s', 'p.student_id', 's.id')
+    .select('p.id as projectId', 'p.title', 'p.due_date', 'p.reminder_time', 'p.notes')
+    .where({'student_id' : id})
+    .then(projects => {
+        if (projects) {
+            return projects
+            
+        } else {
+            return null
+        }
+    })   
 }
-
 

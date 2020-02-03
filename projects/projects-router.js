@@ -3,6 +3,27 @@ const router = express.Router();
 
 const Projects = require('./project-model')
 
+/** 
+* @api {get} api/projects/:id GET a Project by Id
+* @apiName getProjectById
+* @apiGroup Projects
+* @apiParam {Number} id Student id
+* @apiSuccess {Number} student_id id of the student that this project belongs to
+* @apiSuccess {String} title Project title
+* @apiSuccess {Date} due_date date the project is due
+* @apiSuccess {Time} reminder_time time to send reminder
+* @apiSuccess {String} notes notes 
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+* {
+*    "id": 1,
+*    "student_id": 1,
+*    "title": "Recommendation Due",
+*    "due_date": "02-13-2020",
+*    "reminder_time": "3:00",
+*    "notes": "Must write recommendation for masters program"
+* }
+*/
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
@@ -20,6 +41,41 @@ router.get('/:id', (req, res) => {
     });
   });
 
+   /** 
+* @api {post} api/projects Add/Create a new project
+* @apiName addProject
+* @apiGroup Projects
+* 
+* @apiParam {Number} student_id id of student the project is connected to 
+* @apiParam {String} title project title
+* @apiParam {Date} due_date date the project is due
+* @apiParam {Time} reminder_time time to send reminder
+* @apiParam {String} notes notes
+*
+* @apiParamExample Example Body:
+* {
+*    "student_id": 1,
+*    "title": "Final Exam Due",
+*    "due_date": "03-13-2020",
+*    "reminder_time": "3:00",
+*    "notes": "Student must take final exam"
+* }
+* @apiSuccess {Number} student_id id of student the project is connected to 
+* @apiSuccess {String} title project title
+* @apiSuccess {Date} due_date date the project is due
+* @apiSuccess {Time} reminder_time time to send reminder
+* @apiSuccess {String} notes notes
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+*{
+*    "id": 6,
+*    "student_id": 1,
+*    "title": "Final Exam Due",
+*    "due_date": "03-13-2020",
+*    "reminder_time": "3:00",
+*    "notes": "Student must take final exam"
+*}
+*/
 
 router.post("/", (req, res) => {
 
@@ -34,6 +90,14 @@ router.post("/", (req, res) => {
       });
 })
 
+ /** 
+* @api {put} api/projects/:id EDIT a Project by Id
+* @apiName editProject
+* @apiGroup Projects
+* @apiParam {Number} id Project id
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+*/
 
 router.put("/:id", (req, res) => {
 
@@ -57,7 +121,18 @@ router.put("/:id", (req, res) => {
 
 })
 
-
+ /** 
+* @api {delete} api/projects/:id DELETE a Project
+* @apiName deleteProject
+* @apiGroup Projects
+* @apiParam {Number} id Project Id
+*
+* @apiSuccessExample Successful Response
+* HTTP/1.1 200 OK
+* {
+*    "removed": 1
+* }
+*/
 
 router.delete("/:id", (req, res) => {
 

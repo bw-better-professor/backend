@@ -8,6 +8,7 @@ const projectRouter = require('./projects/projects-router')
 
 
 
+
 const server = express();
 
 server.use(helmet());
@@ -19,6 +20,8 @@ server.use('/api/auth', loginRouter);
 server.use('/api/users', usersRouter);
 server.use('/api/students', studentsRouter);
 server.use('/api/projects', projectRouter);
+
+server.use('/docs', express.static('./docs'));
 
 server.get('/', (req, res) => {
 	res.send("Everythings clear Sir'");
