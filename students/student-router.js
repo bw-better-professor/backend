@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 * @apiName getStudentById
 * @apiGroup Students
 * @apiParam {Number} id Student id
-* @apiSuccess {Number} id Student id
+* @apiSuccess {Number} user_id id of user who created that student
 * @apiSuccess {String} name Student name
 * @apiSuccess {String} email Student email
 * @apiSuccess {String} image_url image url for student photo
@@ -59,7 +59,7 @@ router.get('/:id', (req, res) => {
 });
 
  /** 
-* @api {post} api/students/ Add/Create a new student
+* @api {post} api/students Add/Create a new student
 * @apiName addStudent
 * @apiGroup Students
 * 

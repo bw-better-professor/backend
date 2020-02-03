@@ -58,6 +58,13 @@ The following Endpoints have been provided for the project
 | PUT    | `/api/projects/:id`          |  Edits info for project with corresponding id       |
 | DELETE | `/api/projects/:id`          |  Deletes project with the corresponding id          |
 
+#### Login/Register Routes
+
+| Method | Endpoint                     |  Description                                        |
+| ------ | -----------------------      |  -------------------------------------------------- |
+| POST   | `/api/auth/login`            |  Allows a user to login                             |
+| POST   | `/api/auth/register`         |  Creates a new user                                 |
+
 # Data Model
 
 Below demonstrates the shape of the data for users, students, and projects
@@ -105,44 +112,46 @@ Below demonstrates the shape of the data for users, students, and projects
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+Actions that pertain to this backend: 
 
-`getOrgs()` -> Returns all organizations
+`getUsers()` -> Returns all users
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`findUserById(id)` -> Returns a single user by ID
 
-`addOrg(org)` -> Returns the created org
+`updateUser(changes, id)` -> Update a user by ID
 
-`updateOrg(orgId)` -> Update an organization by ID
+`removeUser(id)` -> Delete a user by ID
 
-`deleteOrg(orgId)` -> Delete an organization by ID
+`getStudentList(id)` -> Returns a list of students that are assigned to the user with the selected id
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+`getStudents()` -> Returns all students in the database 
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`findStudentById(id)` -> Returns a single user by user ID
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`addStudent(newStudent)` --> Creates a new student and returns that student.
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`updateStudent(id, changes)` -> Updates a single student by ID.
 
-## 3️⃣ Environment Variables
+`deleteStudent(id)` -> deletes the student
 
-In order for the app to function correctly, the user must set up their own environment variables.
+`getProjectsList(id)` -> Returns a list of projects assigned to that student
 
-create a .env file that includes the following:
+<br>
+<br>
+<br>
 
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
-    
+`findById(id)` -> Returns a single project by user ID
+
+`addProject(newProject)` --> Creates a new project and returns that project.
+
+`updateProject(id, changes)` -> Updates a single project by ID.
+
+`deleteProject(id)` -> deletes the project
+
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -181,5 +190,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+FrontEnd Documentation Pending
